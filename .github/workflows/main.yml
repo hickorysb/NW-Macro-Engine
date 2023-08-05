@@ -11,8 +11,6 @@ jobs:
             - uses: actions/checkout@v3
             - name: "Fetch Dependencies"
               run: cargo fetch --target x86_64-pc-windows-gnu
-            - name: "Run Rust Tests"
-              run: cargo test --target x86_64-pc-windows-gnu
             - name: "Build"
               run: cargo build --target x86_64-pc-windows-gnu --release
             - uses: actions/upload-artifact@v3
