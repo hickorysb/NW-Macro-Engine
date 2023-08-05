@@ -1,19 +1,23 @@
-name: Compile
+name: Compile & Test
 
 on:
     push:
         branches: [master]
 
 jobs:
-    build:
+    release-setup:
         runs-on: self-hosted
         steps:
             - uses: actions/checkout@v3
-            - run: cargo fetch --target x86_64-pc-windows-gnu
-            - run: cargo build --target x86_64-pc-windows-gnu --release
+            - name: "Fetch Dependencies"
+              run: cargo fetch --target x86_64-pc-windows-gnu
+            - name: "Run Rust Tests"
+              run: cargo test --target x86_64-pc-windows-gnu
+            - name: "Build"
+              run: cargo build --target x86_64-pc-windows-gnu --release
             - uses: actions/upload-artifact@v3
               if: success()
               with:
-                  name: NW-Macro-Engine.exe
-                  path: target/x86_64-pc-windows-gnu/release/NW-Macro-Engine.exe
+                  name: nw-macro-engine.exe
+                  path: target/x86_64-pc-windows-gnu/release/nw-macro-engine.exe
                   retention-days: 5
